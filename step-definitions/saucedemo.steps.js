@@ -10,6 +10,15 @@ When('I sign in as {string} with password {string}', async function (username, p
   await this.sauceDemoPage.signIn(username, password);
 });
 
+When('I sign in with valid credentials', async function () {
+  const username = process.env.SAUCEDEMO_USERNAME;
+  const password = process.env.SAUCEDEMO_PASSWORD;
+  if (!username || !password) {
+    throw new Error('Set SAUCEDEMO_USERNAME and SAUCEDEMO_PASSWORD before running this scenario');
+  }
+  await this.sauceDemoPage.signIn(username, password);
+});
+
 Then('I should see the Products page', async function () {
   await this.sauceDemoPage.expectProductsPage();
 });

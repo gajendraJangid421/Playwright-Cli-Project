@@ -5,13 +5,13 @@ Feature: SauceDemo authentication and checkout
 
   Scenario: A standard user completes a purchase
     Given I am on the SauceDemo login page
-    When I sign in as "standard_user" with password "secret_sauce"
+    When I sign in with valid credentials
     Then I should see the Products page
     When I add "Sauce Labs Backpack" to the cart
     And I open the cart and proceed to checkout
     And I enter first name "Test", last name "User", and postal code "12345"
     And I continue and finish the checkout
-    Then I should see "Thank you for your order!"
+    Then I should see "Thank you for your orde!"
     And I save a screenshot as "artifacts/saucedemo/standard-user-completes-checkout.png"
 
   Scenario: A locked-out user cannot sign in

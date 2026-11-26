@@ -3,7 +3,7 @@ const { chromium, request } = require('playwright');
 const path = require('node:path');
 const fs = require('node:fs/promises');
 const { SauceDemoPage } = require('../pages/saucedemo.page');
-const { SauceDemoApi } = require('./saucedemo.api');
+const { SauceDemoApi } = require('../apis/home.api');
 
 setDefaultTimeout(30_000);
 
