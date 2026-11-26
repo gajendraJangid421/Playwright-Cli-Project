@@ -5,7 +5,8 @@
   "devDependencies": {
     "@cucumber/cucumber": "^12.9.0",
     "@playwright/test": "^1.64.1",
-    "@types/node": "^26.6.5"
+    "@types/node": "^26.6.5",
+    "dotenv": "^18.0.10"
   },
   "scripts": {
     "test:bdd": "cucumber-js features --require support/world.js --require support/hooks.js --require step-definitions/saucedemo.steps.js --format progress --format html:cucumber-report.html"

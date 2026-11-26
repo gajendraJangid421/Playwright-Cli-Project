@@ -5,7 +5,7 @@ Feature: SauceDemo authentication and checkout
 
   Scenario: A standard user completes a purchase
     Given I am on the SauceDemo login page
-    When I sign in as "standard_user" with password "secret_sauce"
+    When I sign in with valid credentials
     Then I should see the Products page
     When I add "Sauce Labs Backpack" to the cart
     And I open the cart and proceed to checkout

@@ -9,8 +9,8 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - uses: actions/checkout@v5
+    - uses: actions/setup-node@v5
       with:
         node-version: lts/*
     - name: Install dependencies
@@ -24,7 +24,10 @@ jobs:
     - name: Run SauceDemo Cucumber tests
       if: ${{ !cancelled() }}
       run: npm run test:bdd
-    - uses: actions/upload-artifact@v4
+      env:
+        SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
+        SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
+    - uses: actions/upload-artifact@v5
       if: ${{ !cancelled() }}
       with:
         name: test-reports

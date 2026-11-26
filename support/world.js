@@ -1,4 +1,5 @@
 const { World, setWorldConstructor } = require('@cucumber/cucumber');
+require('dotenv').config();
 
 const baseUrl = process.env.SAUCEDEMO_BASE_URL || 'https://www.saucedemo.com/';
 
