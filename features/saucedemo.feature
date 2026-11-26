@@ -11,7 +11,7 @@ Feature: SauceDemo authentication and checkout
     And I open the cart and proceed to checkout
     And I enter first name "Test", last name "User", and postal code "12345"
     And I continue and finish the checkout
-    Then I should see "Thank you for your order!"
+    Then I should see "Thank you for your orde!"
     And I save a screenshot as "artifacts/saucedemo/standard-user-completes-checkout.png"
 
   Scenario: A locked-out user cannot sign in
