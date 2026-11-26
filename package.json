@@ -8,6 +8,6 @@
     "@types/node": "^26.6.5"
   },
   "scripts": {
-    "test:bdd": "cucumber-js features --require features/support/world.js --require features/support/hooks.js --require features/step-definitions/saucedemo.steps.js --format progress --format html:cucumber-report.html"
+    "test:bdd": "cucumber-js features --require support/world.js --require support/hooks.js --require step-definitions/saucedemo.steps.js --format progress --format html:cucumber-report.html"
   }
 }

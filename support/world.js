@@ -1,6 +1,4 @@
 const { World, setWorldConstructor } = require('@cucumber/cucumber');
-const { SauceDemoPage } = require('../pages/saucedemo.page');
-const { SauceDemoApi } = require('./saucedemo.api');
 
 const baseUrl = process.env.SAUCEDEMO_BASE_URL || 'https://www.saucedemo.com/';
 
