@@ -22,6 +22,7 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Run Playwright tests
+      id: pw
       run: npx playwright test
       env:
         PLAYWRIGHT_HTML_OPEN: never
@@ -47,3 +48,39 @@ jobs:
           cucumber-report.html
           artifacts/saucedemo/
         retention-days: 30
+    
+    - name: Notify n8n on failure
+      if: ${{ !cancelled() && (steps.pw.outcome == 'failure' || steps.bdd.outcome == 'failure') }}
+      env:
+        N8N_WEBHOOK_URL: ${{ secrets.N8N_WEBHOOK_URL }}
+        N8N_WEBHOOK_TOKEN: ${{ secrets.N8N_WEBHOOK_TOKEN }}
+        PW_OUTCOME: ${{ steps.pw.outcome }}
+        BDD_OUTCOME: ${{ steps.bdd.outcome }}
+        COMMIT_MSG: ${{ github.event.head_commit.message }}
+      run: |
+        if [ -z "$N8N_WEBHOOK_URL" ]; then
+          echo "N8N_WEBHOOK_URL not set, skipping notification"
+          exit 0
+        fi
+        jq -n \
+          --arg repo "${{ github.repository }}" \
+          --arg run_id "${{ github.run_id }}" \
+          --arg run_url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+          --arg branch "${{ github.ref_name }}" \
+          --arg sha "${{ github.sha }}" \
+          --arg actor "${{ github.actor }}" \
+          --arg event "${{ github.event_name }}" \
+          --arg commit_message "$COMMIT_MSG" \
+          --arg playwright "$PW_OUTCOME" \
+          --arg cucumber "$BDD_OUTCOME" \
+          '{repo:$repo, run_id:$run_id, run_url:$run_url, branch:$branch, commit_sha:$sha,
+            actor:$actor, event:$event, commit_message:$commit_message,
+            suites:{playwright:$playwright, cucumber:$cucumber}}' \
+        | curl -sS -X POST "$N8N_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -H "x-webhook-token: $N8N_WEBHOOK_TOKEN" \
+            -d @-
+
+    - name: Fail the job if any suite failed
+      if: ${{ !cancelled() && (steps.pw.outcome == 'failure' || steps.bdd.outcome == 'failure') }}
+      run: exit 1
