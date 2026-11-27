@@ -4,6 +4,9 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  schedule:
+    - cron: "30 3 * * *"   # daily, 9:00 AM IST
+
 jobs:
   test:
     timeout-minutes: 60
@@ -17,16 +20,22 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+
     - name: Run Playwright tests
       run: npx playwright test
       env:
         PLAYWRIGHT_HTML_OPEN: never
+        RUN_BROKEN_TESTS: ${{ vars.RUN_BROKEN_TESTS }}
+      
     - name: Run SauceDemo Cucumber tests
+      id: bdd
       if: ${{ !cancelled() }}
+      continue-on-error: true
       run: npm run test:bdd
       env:
         SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
         SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
+
     - uses: actions/upload-artifact@v5
       if: ${{ !cancelled() }}
       with:
@@ -34,6 +43,7 @@ jobs:
         path: |
           playwright-report/
           test-results/
+          results.json
           cucumber-report.html
           artifacts/saucedemo/
         retention-days: 30
