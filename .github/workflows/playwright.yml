@@ -32,8 +32,14 @@ jobs:
       id: bdd
       if: ${{ !cancelled() }}
       continue-on-error: true
-      run: npm run test:bdd
+      run: |
+        if [ "$RUN_BROKEN_TESTS" = "true" ]; then
+          npm run test:bdd:broken
+        else
+          npm run test:bdd
+        fi
       env:
+        RUN_BROKEN_TESTS: ${{ vars.RUN_BROKEN_TESTS || 'false' }}
         SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
         SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
 

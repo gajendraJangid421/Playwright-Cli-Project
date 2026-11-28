@@ -9,6 +9,8 @@
     "dotenv": "^18.0.10"
   },
   "scripts": {
-    "test:bdd": "cucumber-js features --require support/world.js --require support/hooks.js --require step-definitions/saucedemo.steps.js --format progress --format html:cucumber-report.html"
-  }
+  "test": "playwright test",
+  "test:bdd": "cucumber-js features --require support/world.js --require support/hooks.js --require step-definitions/saucedemo.steps.js --tags \"not @broken\" --format progress --format html:cucumber-report.html --format json:cucumber-report.json",
+  "test:bdd:broken": "cucumber-js features --require support/world.js --require support/hooks.js --require step-definitions/saucedemo.steps.js --tags @broken --format progress --format json:cucumber-report.json"
+}
 }

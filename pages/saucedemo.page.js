@@ -26,7 +26,7 @@ class SauceDemoPage {
   async addProductToCart(productName) {
     const product = this.page.locator('.inventory_item').filter({ hasText: productName });
     await expect(product).toBeVisible();
-    await product.getByRole('button', { name: 'Add to car' }).click();
+    await product.getByRole('button', { name: 'Add to cart' }).click();
   }
 
   async openCartAndStartCheckout() {

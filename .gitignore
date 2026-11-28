@@ -9,3 +9,5 @@ node_modules/
 /playwright/.auth/
 /artifacts/
 /cucumber-report.html
+/cucumber-report.json
+/results.json
