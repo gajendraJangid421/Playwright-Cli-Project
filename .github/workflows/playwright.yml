@@ -26,7 +26,7 @@ jobs:
       run: npx playwright test
       env:
         PLAYWRIGHT_HTML_OPEN: never
-        RUN_BROKEN_TESTS: ${{ vars.RUN_BROKEN_TESTS }}
+        RUN_BROKEN_TESTS: "true"
       
     - name: Run SauceDemo Cucumber tests
       id: bdd
