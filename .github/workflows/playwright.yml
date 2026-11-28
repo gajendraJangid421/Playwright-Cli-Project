@@ -43,7 +43,7 @@ jobs:
         SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
         SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
 
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@v6
       if: ${{ !cancelled() }}
       with:
         name: test-reports
