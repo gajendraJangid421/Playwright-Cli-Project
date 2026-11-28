@@ -54,6 +54,16 @@ jobs:
           cucumber-report.html
           artifacts/saucedemo/
         retention-days: 30
+
+    - uses: actions/upload-artifact@v6
+      if: ${{ !cancelled() }}
+      with:
+        name: triage-data
+        path: |
+          cucumber-report.json
+          results.json
+        if-no-files-found: warn
+        retention-days: 30
     
     - name: Notify n8n on failure
       if: ${{ !cancelled() && (steps.pw.outcome == 'failure' || steps.bdd.outcome == 'failure') }}
